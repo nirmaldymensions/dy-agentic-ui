@@ -1,90 +1,107 @@
-import { BrowserRouter, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
-import Header from './components/Header';
-import BriefingDashboard from './components/BriefingDashboard';
-import OpportunityDetail from './components/OpportunityDetail';
-import LeadsPage from './components/LeadsPage';
-import LeadDetailPage from './components/LeadDetailPage';
-import QuotePrepPage from './components/QuotePrepPage';
-import Customer360Page from './components/Customer360Page';
-import QuotesPage from './components/QuotesPage';
-import PipelinePage from './components/PipelinePage';
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  useNavigate,
+  useLocation,
+} from 'react-router-dom'
+import Header from './components/Header'
+import BriefingDashboard from './components/BriefingDashboard'
+import OpportunityDetail from './components/OpportunityDetail'
+import LeadsPage from './components/LeadsPage'
+import LeadDetailPage from './components/LeadDetailPage'
+import QuotePrepPage from './components/QuotePrepPage'
+import Customer360Page from './components/Customer360Page'
+import QuotesPage from './components/QuotesPage'
+import PipelinePage from './components/PipelinePage'
 
 function AppContent() {
-  const navigate = useNavigate();
-  const location = useLocation();
+  const navigate = useNavigate()
+  const location = useLocation()
 
   const handleOpenDetail = (opportunity: any) => {
-    navigate('/opportunity', { state: { opportunity } });
-  };
+    navigate('/opportunity', { state: { opportunity } })
+  }
 
   const handleBackToBriefing = () => {
-    navigate('/');
-  };
+    navigate('/')
+  }
 
   const handleNavigateToLeads = () => {
-    navigate('/leads');
-  };
+    navigate('/leads')
+  }
 
-  const handleNavigate = (view: 'briefing' | 'leads' | 'customer360' | 'quotes' | 'pipeline') => {
+  const handleNavigateToCustomer360 = () => {
+    navigate('/customer360', { state: { from: 'hub' } })
+  }
+
+  const handleBackToHub = () => {
+    navigate('/')
+  }
+
+  const handleNavigate = (
+    view: 'briefing' | 'leads' | 'customer360' | 'quotes' | 'pipeline'
+  ) => {
     const routes: Record<string, string> = {
       briefing: '/',
       leads: '/leads',
       customer360: '/customer360',
       quotes: '/quotes',
       pipeline: '/pipeline',
-    };
-    navigate(routes[view]);
-  };
+    }
+    navigate(routes[view])
+  }
 
   const handleNavigateToOverdueDeals = () => {
     navigate('/opportunity', {
       state: {
         opportunity: {
-          account: "Acme Corporation",
-          opportunity: "Enterprise Platform Migration",
-        }
-      }
-    });
-  };
+          account: 'Acme Corporation',
+          opportunity: 'Enterprise Platform Migration',
+        },
+      },
+    })
+  }
 
   const handleNavigateToQuotePrep = () => {
-    navigate('/quote-prep');
-  };
+    navigate('/quote-prep')
+  }
 
   const handleOpenLeadDetail = (lead: any) => {
-    navigate('/lead', { state: { lead } });
-  };
+    navigate('/lead', { state: { lead } })
+  }
 
   const handleBackToLeads = () => {
-    navigate('/leads');
-  };
+    navigate('/leads')
+  }
 
   const handleGenerateQuote = () => {
-    navigate('/customer360');
-  };
+    navigate('/customer360')
+  }
 
   const handleBackToQuotePrep = () => {
-    navigate('/quote-prep');
-  };
+    navigate('/quote-prep')
+  }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-50">
+    <div className='min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-50'>
       <Header currentView={location.pathname} onNavigate={handleNavigate} />
 
       <Routes>
         <Route
-          path="/"
+          path='/'
           element={
             <BriefingDashboard
               onOpenDetail={handleOpenDetail}
               onNavigateToLeads={handleNavigateToLeads}
+              onNavigateToCustomer360={handleNavigateToCustomer360}
               onNavigateToOverdueDeals={handleNavigateToOverdueDeals}
               onNavigateToQuotePrep={handleNavigateToQuotePrep}
             />
           }
         />
         <Route
-          path="/opportunity"
+          path='/opportunity'
           element={
             <OpportunityDetail
               opportunity={location.state?.opportunity}
@@ -93,15 +110,16 @@ function AppContent() {
           }
         />
         <Route
-          path="/leads"
+          path='/leads'
           element={
             <LeadsPage
               onOpenLeadDetail={handleOpenLeadDetail}
+              onConvertToPipeline={() => navigate('/pipeline')}
             />
           }
         />
         <Route
-          path="/lead"
+          path='/lead'
           element={
             <LeadDetailPage
               lead={location.state?.lead}
@@ -111,7 +129,7 @@ function AppContent() {
           }
         />
         <Route
-          path="/quote-prep"
+          path='/quote-prep'
           element={
             <QuotePrepPage
               onBack={handleBackToBriefing}
@@ -120,20 +138,23 @@ function AppContent() {
           }
         />
         <Route
-          path="/customer360"
-          element={<Customer360Page onBack={handleBackToQuotePrep} />}
+          path='/customer360'
+          element={
+            <Customer360Page
+              fromHub={location.state?.from === 'hub'}
+              onBack={
+                location.state?.from === 'hub'
+                  ? handleBackToHub
+                  : handleBackToQuotePrep
+              }
+            />
+          }
         />
-        <Route
-          path="/quotes"
-          element={<QuotesPage />}
-        />
-        <Route
-          path="/pipeline"
-          element={<PipelinePage />}
-        />
+        <Route path='/quotes' element={<QuotesPage />} />
+        <Route path='/pipeline' element={<PipelinePage />} />
       </Routes>
     </div>
-  );
+  )
 }
 
 function App() {
@@ -141,7 +162,7 @@ function App() {
     <BrowserRouter>
       <AppContent />
     </BrowserRouter>
-  );
+  )
 }
 
-export default App;
+export default App

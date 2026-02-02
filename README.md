@@ -16,14 +16,14 @@ A sales command center UI for AI-assisted sales workflows. Sales reps get a dail
 
 ## Tech Stack
 
-| Category   | Technology        |
-|-----------|--------------------|
-| Language  | TypeScript         |
-| UI        | React 18           |
-| Routing   | react-router-dom 7 |
-| Build     | Vite 5             |
-| Styling   | Tailwind CSS 3    |
-| Icons     | lucide-react      |
+| Category | Technology         |
+| -------- | ------------------ |
+| Language | TypeScript         |
+| UI       | React 18           |
+| Routing  | react-router-dom 7 |
+| Build    | Vite 5             |
+| Styling  | Tailwind CSS 3     |
+| Icons    | lucide-react       |
 
 ## Project Structure
 
@@ -87,25 +87,29 @@ npm run preview
 
 ### Other scripts
 
-| Script       | Command              | Purpose                    |
-|-------------|----------------------|----------------------------|
-| Lint        | `npm run lint`       | Run ESLint                 |
-| Type check  | `npm run typecheck`  | TypeScript (no emit)       |
+| Script     | Command             | Purpose              |
+| ---------- | ------------------- | -------------------- |
+| Lint       | `npm run lint`      | Run ESLint           |
+| Type check | `npm run typecheck` | TypeScript (no emit) |
 
 ## Routes
 
-| Path           | Component          | Description                    |
-|----------------|--------------------|--------------------------------|
-| `/`            | BriefingDashboard  | Agentic Hub / home             |
-| `/opportunity` | OpportunityDetail  | Single opportunity drill-down  |
-| `/leads`       | LeadsPage          | Leads list                     |
-| `/lead`        | LeadDetailPage     | Single lead detail             |
-| `/quote-prep`  | QuotePrepPage      | Quote validation & generate     |
-| `/customer360` | Customer360Page    | Account 360 view               |
-| `/quotes`      | QuotesPage         | Quotes list                    |
-| `/pipeline`    | PipelinePage       | Pipeline & deal panel          |
+| Path           | Component         | Description                   |
+| -------------- | ----------------- | ----------------------------- |
+| `/`            | BriefingDashboard | Agentic Hub / home            |
+| `/opportunity` | OpportunityDetail | Single opportunity drill-down |
+| `/leads`       | LeadsPage         | Leads list                    |
+| `/lead`        | LeadDetailPage    | Single lead detail            |
+| `/quote-prep`  | QuotePrepPage     | Quote validation & generate   |
+| `/customer360` | Customer360Page   | Account 360 view              |
+| `/quotes`      | QuotesPage        | Quotes list                   |
+| `/pipeline`    | PipelinePage      | Pipeline & deal panel         |
 
 Navigation between pages uses React Router; some views receive data via `location.state` (e.g. `opportunity`, `lead`). Refreshing or opening those URLs directly will lose that state.
+
+**Full navigation map:** See **[ROUTES_AND_FLOW.md](./ROUTES_AND_FLOW.md)** for every button/link → route and a step-by-step traversal order.
+
+**Automated flow check:** Run `npm run test:e2e` (or `npm run test:e2e:ui` for the Playwright UI). This starts the app if needed and traverses all routes in a headless browser.
 
 ## Configuration & Environment
 
