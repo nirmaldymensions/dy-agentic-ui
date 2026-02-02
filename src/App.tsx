@@ -13,6 +13,7 @@ import LeadDetailPage from './components/LeadDetailPage'
 import QuotePrepPage from './components/QuotePrepPage'
 import Customer360Page from './components/Customer360Page'
 import QuotesPage from './components/QuotesPage'
+import QuoteDetailPage from './components/QuoteDetailPage'
 import PipelinePage from './components/PipelinePage'
 
 function AppContent() {
@@ -83,6 +84,21 @@ function AppContent() {
     navigate('/quote-prep')
   }
 
+  const handleBackToQuotes = () => {
+    navigate('/quotes')
+  }
+
+  const handleOpenQuoteDetail = (quote: {
+    id: number
+    title: string
+    company: string
+    amount: number
+    dueDate: string
+    status: string
+  }) => {
+    navigate('/quote', { state: { quote } })
+  }
+
   return (
     <div className='min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-50'>
       <Header currentView={location.pathname} onNavigate={handleNavigate} />
@@ -150,7 +166,19 @@ function AppContent() {
             />
           }
         />
-        <Route path='/quotes' element={<QuotesPage />} />
+        <Route
+          path='/quotes'
+          element={<QuotesPage onOpenQuoteDetail={handleOpenQuoteDetail} />}
+        />
+        <Route
+          path='/quote'
+          element={
+            <QuoteDetailPage
+              quote={location.state?.quote}
+              onBack={handleBackToQuotes}
+            />
+          }
+        />
         <Route path='/pipeline' element={<PipelinePage />} />
       </Routes>
     </div>
